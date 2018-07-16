@@ -116,6 +116,7 @@ class BunyanDebugStream extends Writable
         @_showLoggerName = @options.showLoggerName ? true
         @_showPid = @options.showPid ? true
         @_showLevel = @options.showLevel ? true
+        @_trimOutput = @options.trimOutput ? false
 
     # Runs a stringifier.
     # Appends any keys consumed to `consumed`.
@@ -225,6 +226,8 @@ class BunyanDebugStream extends Writable
 
         line += "\n#{@_indent}#{request}" if request?
         line += "\n" + values.map((v) -> applyColors(v, colorsToApply)).join('\n') if values.length > 0
+        line = line.trim() if @_trimOutput
+
         return line
 
     _write: (entry, encoding, done) ->
